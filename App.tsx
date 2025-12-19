@@ -177,15 +177,19 @@ const App: React.FC = () => {
           <p className="text-xl leading-relaxed italic text-[#2D5A27]">
             {lang === 'vi' ? (
               <>
-                Mong bạn luôn vui vẻ,<br />
-                sống nhẹ nhàng hơn tui,<br />
-                và luôn được nhiều người thương.
+                Tui mong bạn luôn vui vẻ,<br />
+                dù cuộc sống có thử thách thế nào,<br />
+                tâm bạn vẫn vững vàng,<br />
+                và bạn sẽ sớm có được<br />
+                những điều mình mong muốn.
               </>
             ) : (
               <>
-                I wish you happiness,<br />
-                a lighter heart than mine,<br />
-                and a life filled with people who care about you.
+                I hope you’re always happy,<br />
+                no matter how challenging life becomes.<br />
+                May your heart stay steady and strong,<br />
+                and may you soon find<br />
+                everything you’ve been hoping for.
               </>
             )}
           </p>

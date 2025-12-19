@@ -19,13 +19,6 @@ interface BalloonInstance {
   floatOffset: number;
 }
 
-interface FloatingText {
-  id: number;
-  x: number;
-  y: number;
-  text: string;
-}
-
 const PASTEL_COLORS = [
   'rgba(255, 182, 193, 0.6)', // Light Pink
   'rgba(173, 216, 230, 0.6)', // Light Blue
@@ -39,7 +32,6 @@ const BALLOON_SIZES = [100, 120, 140];
 
 const EmotionBalloons: React.FC<EmotionBalloonsProps> = ({ lang }) => {
   const [balloons, setBalloons] = useState<BalloonInstance[]>([]);
-  const [floatingTexts, setFloatingTexts] = useState<FloatingText[]>([]);
   
   const createBalloon = useCallback((id: number): BalloonInstance => {
     const randomPhrase = BALLOON_PHRASES[Math.floor(Math.random() * BALLOON_PHRASES.length)];
@@ -99,25 +91,10 @@ const EmotionBalloons: React.FC<EmotionBalloonsProps> = ({ lang }) => {
   const handleBalloonClick = (balloon: BalloonInstance) => {
     if (balloon.isFloatingUp) return;
 
-    // Trigger floating up state
+    // Trigger floating up state only, no extra text appears
     setBalloons(prev => prev.map(b => 
       b.id === balloon.id ? { ...b, isFloatingUp: true } : b
     ));
-
-    // Show release text
-    const textId = Date.now();
-    const newText: FloatingText = {
-      id: textId,
-      x: balloon.x,
-      y: balloon.y,
-      text: lang === 'vi' ? 'Thả xuống cũng được.' : 'It’s okay to let go.'
-    };
-    setFloatingTexts(prev => [...prev, newText]);
-
-    // Remove text after delay
-    setTimeout(() => {
-      setFloatingTexts(prev => prev.filter(t => t.id !== textId));
-    }, 2000);
   };
 
   return (
@@ -175,28 +152,6 @@ const EmotionBalloons: React.FC<EmotionBalloonsProps> = ({ lang }) => {
           <div className="w-[1px] h-12 bg-[#8B5E3C]/20 mt-[-2px] origin-top animate-pulse"></div>
         </div>
       ))}
-
-      {/* Floating Confirmation Texts */}
-      {floatingTexts.map(t => (
-        <div
-          key={t.id}
-          className="absolute pointer-events-none animate-float-fade-out font-['Quicksand'] text-[#8B5E3C]/60 text-sm italic"
-          style={{ left: `${t.x}%`, top: `${t.y}%`, transform: 'translate(-50%, -50%)' }}
-        >
-          {t.text}
-        </div>
-      ))}
-
-      <style>{`
-        @keyframes float-fade-out {
-          0% { opacity: 0; transform: translate(-50%, 0); }
-          20% { opacity: 1; transform: translate(-50%, -10px); }
-          100% { opacity: 0; transform: translate(-50%, -40px); }
-        }
-        .animate-float-fade-out {
-          animation: float-fade-out 2s forwards ease-out;
-        }
-      `}</style>
     </section>
   );
 };
